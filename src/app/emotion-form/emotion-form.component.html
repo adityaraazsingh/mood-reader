@@ -1,0 +1,75 @@
+<div style="display: flex;flex-direction: column; justify-content: center;align-items: center;">
+  <textarea
+    [(ngModel)]="inputText"
+    rows="3"
+    placeholder="How are you feeling?"
+    style="
+      width: 75vw;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      margin-top: 1rem;
+    "
+  ></textarea>
+  <br />
+  <button
+    (click)="submitText()"
+    style="
+      margin-top: 1rem;
+      padding: 8px 16px;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 40vw;
+      font-family:fantasy;
+      font-size: large;
+    "
+  >
+    SUBMIT
+  </button>
+
+  <mat-card
+    *ngIf="result"
+    [style.borderColor]="color"
+    [style.boxShadow]="'0 0 12px ' + color + ', 0 0 24px ' + color + ', 0 0 36px ' + color"
+    [style.backgroundColor]="color + '10'"
+    style="
+      width: 80%;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      border-radius: 20px;
+      border-style: solid;
+      border-width: 3px;
+      transition: all 0.3s ease-in-out;
+      font-family: 'Segoe UI', sans-serif;
+      animation: fadeIn 0.6s ease-in;
+    "
+  >
+    <div style="margin-bottom: 1rem">
+      <h2 style="margin: 0; font-size: 32px;display: flex;justify-content: center;font-family:fantasy;">
+        Emotion : {{ result.emotion }} {{ result.emoji }}
+      </h2>
+      <p style="margin: 4px 0">
+        <strong style="font-family: fantasy;">Confidence :</strong> {{ result.confidence }}
+      </p>
+      <p style="margin: 4px 0"><strong style="font-family: fantasy;">Tone:</strong> {{ result.tone }}</p>
+      <p style="margin: 4px 0">
+        <strong style="font-family: fantasy;">Intensity :</strong> {{ result.intensity }}
+      </p>
+      <p style="margin: 4px 0">
+        <strong style="font-family: fantasy;">Summary :</strong> {{ result.summary }}
+      </p>
+      <p style="margin: 4px 0">
+        <strong style="font-family: fantasy;">Keywords :</strong> {{ result.keywords.join(", ") }}
+      </p>
+      <p style="margin: 4px 0">
+        <strong style="font-family: fantasy;">Suggestion :</strong> {{ result.suggestion }}
+      </p>
+      <p style="margin: 4px 0">
+        <strong style="font-family: fantasy;">Response :</strong> {{ result.response_text }}
+      </p>
+    </div>
+  </mat-card>
+</div>
