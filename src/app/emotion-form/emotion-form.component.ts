@@ -21,8 +21,10 @@ export class EmotionFormComponent {
   
   constructor(private http: HttpClient) {}
 
+// http://localhost:8000/analyze
+
   submitText() {
-  this.http.post<any>('http://localhost:8000/analyze', { text: this.inputText })
+  this.http.post<any>('https://mood-reader-api.onrender.com/analyze', { text: this.inputText })
     .subscribe({
       next: (res) => {
         this.result = res;
