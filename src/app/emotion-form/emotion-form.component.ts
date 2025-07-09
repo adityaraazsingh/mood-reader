@@ -17,8 +17,8 @@ export class EmotionFormComponent {
   result: result | null = null;
   color : string | undefined = '' ;
 
- 
 
+  
   constructor(private http: HttpClient) {}
 
   submitText() {
