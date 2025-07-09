@@ -40,3 +40,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+backend/.env
+backend/__pycache__/main.cpython-313.pyc

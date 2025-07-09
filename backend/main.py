@@ -1,27 +1,30 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from transformers import pipeline
+import httpx
+import os
 import re
 
-# ---------------- Setup -------------------
+from dotenv import load_dotenv
+load_dotenv()
+
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200"],
+    allow_origins=["http://localhost:4200", "https://mood-reader-rho.vercel.app"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Load emotion model
-emotion_pipeline = pipeline("text-classification", model="bhadresh-savani/bert-base-go-emotion", top_k=1)
+# Load Hugging Face API token
+HF_API_TOKEN = os.getenv("HF_API_TOKEN")  # Make sure this is set in your environment or .env file
 
 # ---------------- Model -------------------
 class EmotionRequest(BaseModel):
     text: str
 
-# ---------------- Emotion Metadata Map -------------------
+# ---------------- Emotion Metadata -------------------
 emotion_metadata = {
     "joy": {
         "emoji": "😊",
@@ -77,7 +80,7 @@ emotion_metadata = {
 # ---------------- Utility Functions -------------------
 def extract_keywords(text):
     words = re.findall(r'\b\w{5,}\b', text.lower())
-    return list(set(words))[:5]  # return top 5 unique long words
+    return list(set(words))[:5]
 
 def classify_intensity(score):
     if score > 0.85:
@@ -89,8 +92,25 @@ def classify_intensity(score):
 
 # ---------------- Route -------------------
 @app.post("/analyze")
-def analyze_emotion(request: EmotionRequest):
-    result = emotion_pipeline(request.text)[0][0]
+async def analyze_emotion(request: EmotionRequest):
+    headers = {
+        "Authorization": f"Bearer {HF_API_TOKEN}"
+    }
+
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            "https://api-inference.huggingface.co/models/j-hartmann/emotion-english-distilroberta-base",
+            headers=headers,
+            json={"inputs": request.text}
+        )
+
+    data = response.json()
+
+    # Handle errors gracefully
+    if isinstance(data, dict) and data.get("error"):
+        return {"error": data["error"]}
+
+    result = data[0][0]
     label = result["label"].lower()
     score = result["score"]
 
