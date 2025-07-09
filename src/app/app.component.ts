@@ -6,7 +6,6 @@ import { MatCard } from "@angular/material/card";
 @Component({
   selector: 'app-root',
   imports: [
-    EmotionFormComponent,
     MatCard,
     RouterOutlet
 ],
