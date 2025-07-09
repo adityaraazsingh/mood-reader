@@ -1,65 +1,148 @@
-# MoodReader
+````markdown
+# 🌈 Mood Reader – Emotion Reflection Tool
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.7.
+A simple full-stack web app that allows users to input short emotional reflections and get feedback on the detected emotion.
 
-## Development server
+Built as part of an internship assignment, this app showcases frontend/backend integration using Angular and FastAPI. It leverages Hugging Face’s emotion classification model and returns enriched emotional insights including intensity, suggestions, and emojis.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
+## 📸 Live Demo
+
+- **Frontend (Angular, deployed on Vercel):**  
+  👉 [https://mood-reader-rho.vercel.app/](https://mood-reader-rho.vercel.app/)
+
+- **Backend (FastAPI, deployed on Render):**  
+  👉 [https://mood-reader-api.onrender.com/docs](https://mood-reader-api.onrender.com/docs)
+
+---
+
+## ✨ Features
+
+- Emotion analysis using Hugging Face (`bert-base-go-emotion`)
+- Sends JSON responses with:
+  - `emotion` name
+  - `confidence` percentage
+  - `emoji` representation
+  - `intensity` level
+  - `suggestion` and `response_text`
+- Clean UI with:
+  - Mobile-first layout
+  - Loading state while processing
+  - Responsive, styled results
+
+---
+
+## 🧠 Tech Stack
+
+### 🔹 Frontend
+- **Angular** (TypeScript)
+- Angular Material UI components
+- Hosted on **Vercel**
+
+### 🔹 Backend
+- **FastAPI** (Python)
+- Hugging Face Transformers via Inference API
+- Hosted on **Render**
+
+---
+
+## 🧪 API Endpoint
+
+### `POST /analyze`
+
+**Request:**
+
+```json
+{
+  "text": "I feel nervous about my first job interview"
+}
+````
+
+**Response:**
+
+```json
+{
+  "emotion": "Fear",
+  "confidence": "84.65%",
+  "emoji": "😨",
+  "tone": "Negative",
+  "summary": "You seem to be feeling fear.",
+  "intensity": "Moderate",
+  "keywords": ["nervous", "interview"],
+  "color_code": "#9A79FF",
+  "suggestion": "Try grounding yourself and focusing on the present.",
+  "response_text": "It’s normal to be scared sometimes."
+}
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 🚀 Running the Project Locally
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 🔧 Backend (FastAPI)
 
-```bash
-ng generate component component-name
+1. Navigate to the `backend/` folder.
+2. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Create a `.env` file with your Hugging Face API token:
+
+   ```env
+   HF_API_TOKEN=hf_YourTokenHere
+   ```
+4. Start the server:
+
+   ```bash
+   python -m uvicorn main:app --reload
+   ```
+
+API will be available at:
+`http://localhost:8000/docs`
+
+---
+
+### 🖼️ Frontend (Angular)
+
+1. Navigate to the `frontend/` folder.
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+3. Start the dev server:
+
+   ```bash
+   ng serve
+   ```
+
+Frontend will be available at:
+`http://localhost:4200`
+
+---
+
+## 💡 Acknowledgements
+
+* 🤗 **[Hugging Face](https://huggingface.co/)** for the `bert-base-go-emotion` model and Inference API.
+* 💬 **ChatGPT (OpenAI)** for assistance in designing, optimizing, and debugging the application.
+* 📄 Assignment by Aman (Internship Team)
+
+---
+
+## 📁 Repository
+
+This project is available at:
+🔗 GitHub: https://github.com/adityaraazsingh/mood-reader/
+
+---
+
+## 🗓️ Submission Deadline
+
+**12 July, 2025**
+
+---
+
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
-
-## To Start The Backend
-
-
-python -m uvicorn main:app --reload
